@@ -411,7 +411,7 @@ export function MonoStudio() {
 
       <aside className="hidden w-[320px] shrink-0 border-l border-black/10 bg-white/60 md:block">
         <div className="sticky top-0 h-screen overflow-hidden">
-          <DialRoot mode="inline" theme="light" />
+          <DialRoot mode="inline" theme="light" productionEnabled />
         </div>
       </aside>
     </div>
