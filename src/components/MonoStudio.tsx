@@ -210,7 +210,16 @@ export function MonoStudio() {
               >
                 DialKit
               </a>
-              .
+              . Built by{' '}
+              <a
+                href="https://github.com/hckmstrrahul/monoink"
+                target="_blank"
+                rel="noreferrer"
+                className="underline hover:text-black/70"
+              >
+                hckmstrrahul
+              </a>{' '}
+              on Aug 2026.
             </p>
           </div>
           <button
