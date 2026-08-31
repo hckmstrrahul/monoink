@@ -121,7 +121,7 @@ export function MonoStudio() {
 
   const { settings, setSettings, hydrated } = useApiSettings();
   const [view, setView] = useState<'prompt' | 'json'>('prompt');
-  const [detailsOpen, setDetailsOpen] = useState(true);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [image, setImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -220,43 +220,6 @@ export function MonoStudio() {
             API keys
           </button>
         </header>
-
-        <div className="flex items-center gap-4 border-b border-black/10 px-6 py-4 md:px-12">
-          {sourceImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={sourceImage}
-              alt="Uploaded reference"
-              className="h-14 w-14 shrink-0 rounded-md border border-black/10 object-cover"
-            />
-          ) : (
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-dashed border-black/20 text-[10px] text-black/30">
-              none
-            </div>
-          )}
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <label className="cursor-pointer rounded-full border border-black/15 px-4 py-1.5 text-sm font-medium hover:bg-black/5">
-                {sourceImage ? 'Replace image' : 'Upload reference image'}
-                <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-              </label>
-              {sourceImage && (
-                <button
-                  onClick={() => setSourceImage(null)}
-                  className="rounded-full border border-black/15 px-4 py-1.5 text-sm hover:bg-black/5"
-                >
-                  Remove
-                </button>
-              )}
-            </div>
-            <p className="text-xs text-black/50">
-              {sourceImage
-                ? 'Used as the subject reference (up to 8MB).'
-                : "Optional — upload a photo to use as the subject, or leave empty to generate from the text subject alone."}
-            </p>
-            {sourceImageError && <p className="text-xs text-red-600">{sourceImageError}</p>}
-          </div>
-        </div>
 
         {settingsOpen && (
           <div className="border-b border-black/10 bg-white p-5 shadow-sm md:px-12">
@@ -409,9 +372,47 @@ export function MonoStudio() {
         </section>
       </main>
 
-      <aside className="hidden w-[320px] shrink-0 border-l border-black/10 bg-white/60 md:block">
-        <div className="sticky top-0 h-screen overflow-hidden">
-          <DialRoot mode="inline" theme="light" productionEnabled />
+      <aside className="hidden w-[320px] shrink-0 border-l border-black/10 bg-white/60 md:flex md:flex-col">
+        <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
+          <div className="shrink-0 border-b border-black/10 p-4">
+            <div className="flex items-center gap-3">
+              {sourceImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={sourceImage}
+                  alt="Uploaded reference"
+                  className="h-12 w-12 shrink-0 rounded-md border border-black/10 object-cover"
+                />
+              ) : (
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-dashed border-black/20 text-[10px] text-black/30">
+                  none
+                </div>
+              )}
+              <div className="flex flex-col gap-1">
+                <label className="cursor-pointer self-start rounded-full border border-black/15 px-3 py-1 text-xs font-medium hover:bg-black/5">
+                  {sourceImage ? 'Replace image' : 'Upload reference image'}
+                  <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+                </label>
+                {sourceImage && (
+                  <button
+                    onClick={() => setSourceImage(null)}
+                    className="self-start rounded-full border border-black/15 px-3 py-1 text-xs hover:bg-black/5"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-black/50">
+              {sourceImage
+                ? 'Used as the subject reference (up to 8MB).'
+                : 'Optional — used as the subject, or leave empty to generate from the text subject alone.'}
+            </p>
+            {sourceImageError && <p className="mt-1 text-xs text-red-600">{sourceImageError}</p>}
+          </div>
+          <div className="min-h-0 flex-1 overflow-hidden">
+            <DialRoot mode="inline" theme="light" productionEnabled />
+          </div>
         </div>
       </aside>
     </div>
